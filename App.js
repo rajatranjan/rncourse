@@ -11,7 +11,7 @@ import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native'
 
 import PlaceInput from './src/components/PlaceInput/PlaceInput';
 import PlaceList from './src/components/PlaceList/PlaceList';
-import placeImage from './src/assets/wallpaper.jpg'
+// import placeImage from './src/assets/wallpaper.jpg'
 export default class App extends Component { //<Props>
   state = {
     places: []
@@ -24,7 +24,9 @@ export default class App extends Component { //<Props>
         places: prevState.places.concat({
           key: Math.random(), 
           name: placeName,
-          image: placeImage
+          image: {
+            uri: "https://www.gstatic.com/webp/gallery3/1.png" //when using external image its important to give height and width in style.
+          }
         })
       };
     });
