@@ -11,7 +11,7 @@ import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native'
 
 import PlaceInput from './src/components/PlaceInput/PlaceInput';
 import PlaceList from './src/components/PlaceList/PlaceList';
-
+import placeImage from './src/assets/wallpaper.jpg'
 export default class App extends Component { //<Props>
   state = {
     places: []
@@ -23,7 +23,8 @@ export default class App extends Component { //<Props>
       return {
         places: prevState.places.concat({
           key: Math.random(), 
-          value: placeName
+          name: placeName,
+          image: placeImage
         })
       };
     });
