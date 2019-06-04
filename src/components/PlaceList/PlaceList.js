@@ -12,7 +12,7 @@ const PlaceList = props => {
         <ListItem 
           placeName={info.item.name} //item is a property on the info object, that's where it's coming from.
           placeImage={info.item.image}
-          onItemPressed={() => props.onItemDeleted(info.item.key) }
+          onItemPressed={() => props.onItemSelected(info.item.key) }
         />
       )}/>;
 };
