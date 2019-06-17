@@ -6,78 +6,55 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
+import React, { Component } from "react";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button
+} from "react-native";
+import { connect } from "react-redux";
 
-import PlaceInput from './src/components/PlaceInput/PlaceInput';
-import PlaceList from './src/components/PlaceList/PlaceList';
-import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
-// import placeImage from './src/assets/wallpaper.jpg'
-export default class App extends Component { //<Props>
-  state = {
-    places: [],
-    selectedPlace: null
-  };
-  
+import PlaceInput from "./src/components/PlaceInput/PlaceInput";
+import PlaceList from "./src/components/PlaceList/PlaceList";
+import PlaceDetail from "./src/components/PlaceDetail/PlaceDetail";
+import {
+  addPlace,
+  deletePlace,
+  selectPlace,
+  deselectPlace
+} from "./src/store/actions/index";
 
+class App extends Component {
   placeAddedHandler = placeName => {
-    this.setState(prevState => { //set state take a state as argument and prevstate is just a name for that state.
-      return {
-        places: prevState.places.concat({
-          key: Math.random().toString(), //it throu warning because it expect string we send number, to convert number to string i added toString() method.
-          name: placeName,
-          image: {
-            uri: "https://www.gstatic.com/webp/gallery3/1.png" //when using external image its important to give height and width in style.
-          }
-        })
-      };
-    });
+    this.props.onAddPlace(placeName);
   };
-  placeDeletedHandler =() => {
-    this.setState(prevState =>{
-        return {
-          places: prevState.places.filter(place =>{
-            return place.key !== prevState.selectedPlace.key;
-          }),
-          selectedPlace: null,
-        };
-      });
-  }
+
+  placeDeletedHandler = () => {
+    this.props.onDeletePlace();
+  };
   modalClosedHandler = () => {
-    this.setState({
-      selectedPlace: null
-    });
-  }
+    this.props.onDeselectPlace();
+  };
   placeSelectedHandler = key => {
-    this.setState(prevState => {
-      return {
-        selectedPlace: prevState.places.find(place => {
-          return place.key === key;
-        })
-      }
-    }
-    )
-    // this.setState(prevState =>{
-    //   return {
-    //     places: prevState.places.filter(place =>{
-    //       return place.key !== key;
-    //     })
-    //   };
-    // });
-  }
+    this.props.onSelectPlace(key);
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <PlaceDetail 
-          selectedPlace={this.state.selectedPlace} 
-          onItemDeleted={this.placeDeletedHandler} 
+        <PlaceDetail
+          selectedPlace={this.props.selectedPlace}
+          onItemDeleted={this.placeDeletedHandler}
           onModalClosed={this.modalClosedHandler}
         />
         <PlaceInput onPlaceAdded={this.placeAddedHandler} />
         <PlaceList
-         places={this.state.places}
-         onItemSelected={this.placeSelectedHandler}/>
+          places={this.props.places}
+          onItemSelected={this.placeSelectedHandler}
+        />
       </View>
     );
   }
@@ -87,8 +64,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    places: state.places.places, //first 'places' is from rootReducer function of configureStore.js file, second 'places.js' is from reducers folder places.js
+    selectedPlace: state.places.selectedPlace
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddPlace: name => dispatch(addPlace(name)), //it imported from actions/index.js
+    //we later use this onAddPlace in component and pass name of place to the function.
+    onDeletePlace: () => dispatch(deletePlace()),
+    onSelectPlace: key => dispatch(selectPlace(key)),
+    onDeselectPlace: () => dispatch(deselectPlace())
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
