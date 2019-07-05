@@ -7,8 +7,6 @@ import { Provider } from "react-redux";
 import App from "./App";
 import configureStore from "./src/store/configureStore";
 
-import { name as appName } from "./app.json";
-
 const store = configureStore();
 
 const RNRedux = () => (
@@ -17,4 +15,4 @@ const RNRedux = () => (
   </Provider>
 );
 
-AppRegistry.registerComponent(appName, () => RNRedux);
+AppRegistry.registerComponent("rncourse", () => RNRedux);
