@@ -31,7 +31,9 @@ Navigation.registerComponent(
 );
 Navigation.registerComponent(
   "awesome-places.PlaceDetailScreen",
-  () => PlaceDetailScreen
+  () => PlaceDetailScreen,
+  store,
+  Provider
 );
 //start App, doc about it is online in react native navigation guide
 Navigation.startSingleScreenApp({
