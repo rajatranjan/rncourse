@@ -6,6 +6,7 @@ import SharePlaceScreen from "./src/screens/SharePlace/SharePlace";
 import FindPlaceScreen from "./src/screens/FindPlace/FindPlace";
 import PlaceDetailScreen from "./src/screens/PlaceDetail/PlaceDetail";
 import configureStore from "./src/store/configureStore";
+import SideDrawer from "./src/screens/SideDrawer/SideDrawer";
 
 const store = configureStore();
 
@@ -35,6 +36,7 @@ Navigation.registerComponent(
   store,
   Provider
 );
+Navigation.registerComponent("awesome-places.SideDrawer", () => SideDrawer);
 //start App, doc about it is online in react native navigation guide
 Navigation.startSingleScreenApp({
   screen: {
