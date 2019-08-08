@@ -44,10 +44,16 @@ const startTabs = () => {
           }
         }
       ],
+      tabStyle: {
+        tabBarSelectedButtonColor: "orange" //it works for iOS
+      },
       drawer: {
         left: {
           screen: "awesome-places.SideDrawer"
         }
+      },
+      appStyle: {
+        tabBarSelectedButtonColor: "orange" //it works for android
       }
     });
   });
